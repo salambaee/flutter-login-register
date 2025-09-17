@@ -151,3 +151,4 @@ Hero membutuhkan `tag` yang sama di dua halaman, sebagai jembatan supaya flutter
 -
 Gunakan *package* `shared_preferences` untuk menyimpan status login. Jadi, saat aplikasi ditutup dan dibuka lagi, pengguna tidak perlu login ulang jika sesinya masih aktif.
 
+s
