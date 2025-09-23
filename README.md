@@ -154,11 +154,82 @@ Gunakan *package* `shared_preferences` untuk menyimpan status login. Jadi, saat 
 `lib/main.dart`
 
 ```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
+  final prefs = await SharedPreferences.getInstance();
+  final bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
+  final String? fullName = prefs.getString("fullName");
+
+  runApp(MyApp(isLoggedIn: isLoggedIn, fullName: fullName));
+}
+
+class MyApp extends StatelessWidget {
+  final bool isLoggedIn;
+  final String? fullName;
+  const MyApp({super.key, required this.isLoggedIn, this.fullName});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Login UI',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: isLoggedIn ? HomePage(fullName: fullName ?? "Guest") : LoginPage(),
+    );
+  }
+}
 ```
 
 `lib/login_page.dart`
 
 ```dart
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _obsecurePassword = true;
+
+  void _login() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    if (userData.containsKey(email) && userData[email]!['password'] == password) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool("isLoggedIn", true);
+      await prefs.setString("fullName", userData[email]!['fullName']!);
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(fullName: userData[email]!['fullName']!,),
+          ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Login Gagal'),
+            content: Text('Email atau password salah.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Ok'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 ```
