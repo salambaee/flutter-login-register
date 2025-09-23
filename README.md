@@ -3,7 +3,7 @@
 ## Laporan latihan
 
 **Validasi Input**
--
+---
 menambahkan validasi yang lebih baik. Misalnya dengan cek apakah emaill memiliki format yang benar atau password memiliki panjang minimal 6 karakter. Untuk menambahkan validasi input tambahkan *if statement* pada fungsi `void _register()` seperti contoh berikut.
 
 `lib/register_page.dart`
@@ -25,7 +25,7 @@ void _register() {
 
 **Hasil penambahan kode diatas**
 
-![Screenshot](https://s4.ezgif.com/tmp/ezgif-49d139d9e70ab3.gif)
+![Screenshot](images/01.gif)
 
 Data `fullName`, `email`, dan `password` diambil dari *controller* masing-masing. Setelah itu, divalidasi melalui variabel boolean `validasiAt` dan `validasiPanjang`.
 
@@ -93,7 +93,7 @@ TextField(
 
 **Hasil dari penambahan kode diatas**
 
-![Screenshot](https://s4.ezgif.com/tmp/ezgif-4e63928c786230.gif)
+![Screenshot](images/02.gif)
 
 Properti `obscureText` artinya teks yang ditulis diubah jadi karakter titik supaya tidak terlihat. Jika false, teks akan tampil seperti biasa. `suffixIcon` muncul di ujung kanan `TextField` karena menggunakan `IconButton` dengan ikon `Icons.visibility_off` atau `Icons.visibility`, ikon yang muncul tergantung dengan kondisi `_obscurePassword`. `onPressed` ketika ikon ditekan, `setState()` dijalankan untuk membalikan nilai `_obscurePassword`. Kalau sebelumnya `true`, maka akan jadi `false`, dan juga sebaliknya.
 
@@ -143,7 +143,7 @@ child: Center(
 
 **Hasil dari penambahan kode diatas**
 
-![Screenshot](https://s4.ezgif.com/tmp/ezgif-46e9e070d6de2d.gif)
+![Screenshot](images/03.gif)
 
 Hero membutuhkan `tag` yang sama di dua halaman, sebagai jembatan supaya flutter tahu bahwa kedua widget tersebut adalah widget yang sama di dua layar berbeda. Saat user berpindah halaman flutter akan mencocokan Hero dengan `tag` yang sama di kedua halaman.
 
@@ -233,3 +233,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 ```
+
+**Hasil dari penambahan kode diatas**
+![Screenshot](images/04.gif)
+
+
+Pertama kali buka aplikasi, dicek apakah `isLoggedIn` di SharedPreferences. Jika ada dan kondisi `true` maka masuk ke `HomePage`, jika tidak ada atau `false` masuk ke `LoginPage`. Saat login berhasil simpan data login ke SharedPreferences. Saat aplikasi ditutup lalu dibuka lagi, data login masih tersimpan dan user langsung diarahkan ke `HomePage` tanpa login ulang.
